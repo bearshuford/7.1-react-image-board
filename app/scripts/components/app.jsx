@@ -58,7 +58,7 @@ var ImageDialog = React.createClass({
 
   componentWillReceiveProps: function(nextProps){
 
-    if(nextProps.model){
+    if(nextProps.model.get('url') != ''){
       this.setState({
         submitLabel: 'Save',
         url: nextProps.model.get('url'),
@@ -83,18 +83,19 @@ var ImageDialog = React.createClass({
     });
 
     this.setState({
+      submitLabel: 'Add',
       url: '',
       caption: ''
     });
   },
 
   handleClose: function(){
-    this.props.handleClose();
     this.setState({
       submitLabel: 'Add',
       caption: '',
       url: '',
-   });
+    });
+    this.props.handleClose();
   },
 
   render: function() {
@@ -166,9 +167,10 @@ var AppContainer = React.createClass({
   mixins: [Backbone.React.Component.mixin],
 
   getInitialState: function() {
+    var model = new Image({url:'',caption:''});
     return {
       open: false,
-      model: false,
+      model: model,
       handleSubmit: this.handleSubmit
    };
   },
@@ -182,11 +184,15 @@ var AppContainer = React.createClass({
   handleOpen: function() {
     this.setState({
       open: true,
+      model: new Image({url:'',caption:''}),
       handleSubmit: this.handleSubmit
     });
   },
   handleClose: function() {
-    this.setState({open: false});
+    this.setState({
+      open: false,
+      model: new Image({url:'',caption:''})
+    });
   },
 
   handleSubmit: function(item){
@@ -200,7 +206,7 @@ var AppContainer = React.createClass({
     this.state.model.save();
     this.setState({
       open: false,
-      model: false
+      model: new Image({url:'',caption:''})
     });
   },
 
