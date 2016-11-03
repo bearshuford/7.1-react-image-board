@@ -23,9 +23,12 @@ const styles = {
   },
   card: {
     width: 500,
+    maxWidth: '80%',
     overflowY: 'auto',
-    marginBottom: '18px'
+    marginBottom: '18px',
+    paddingBottom: '0'
   }
+
 };
 
 
