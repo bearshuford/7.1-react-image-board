@@ -180,7 +180,10 @@ var AppContainer = React.createClass({
   },
 
   handleOpen: function() {
-    this.setState({open: true});
+    this.setState({
+      open: true,
+      handleSubmit: this.handleSubmit
+    });
   },
   handleClose: function() {
     this.setState({open: false});
@@ -192,7 +195,7 @@ var AppContainer = React.createClass({
   },
 
 
-  handleChange: function(item) {
+  handleSave: function(item) {
     this.state.model.set(item);
     this.state.model.save();
     this.setState({
@@ -205,8 +208,14 @@ var AppContainer = React.createClass({
     this.setState({
       open: true,
       model: item,
-      handleSubmit: this.handleChange
+      handleSubmit: this.handleSave
     });
+  },
+
+  handleDelete: function(item){
+    console.log('handleDelete');
+    this.getCollection().get(item).destroy();
+    this.handleClose();
   },
 
   render: function() {
@@ -227,7 +236,8 @@ var AppContainer = React.createClass({
 
       <Gallery
         collection={this.getCollection()}
-        handleEdit={this.handleEdit}/>
+        handleEdit={this.handleEdit}
+        handleDelete={this.handleDelete}/>
       </App>
     );
   }

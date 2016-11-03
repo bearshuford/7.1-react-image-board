@@ -18,7 +18,7 @@ const styles = {
   root: {
     paddingTop: '70px',
     display: 'flex',
-    flexFlow: 'column nowrap',
+    flexFlow: 'column-reverse nowrap',
     alignItems: 'center'
   },
   card: {
@@ -36,6 +36,10 @@ var Tile = React.createClass({
     this.props.handleEdit(this.props.img);
   },
 
+  handleDelete: function(){
+    this.props.handleDelete(this.props.img);
+  },
+
   render: function(){
     var img  = this.props.img;
     var self = this;
@@ -44,14 +48,18 @@ var Tile = React.createClass({
         <CardMedia>
           <img src={img.get('url')} />
         </CardMedia>
-         <CardTitle title={img.get('caption')}/>
-        <CardActions>
+         <CardTitle
+           title={img.get('caption')}
+           showExpandableButton={true}
+           actAsExpander={true}/>
+        <CardActions expandable={true}>
           <FlatButton onTouchTap={self.handleEdit}
             label={'Edit'}
           />
-          <FlatButton
+          <FlatButton onTouchTap={self.handleDelete}
             label={'Delete'}
-            secondary={true}/>
+            secondary={true}
+          />
         </CardActions>
       </Card>
     );
@@ -72,7 +80,8 @@ var GalleryContainer = React.createClass({
               <Tile
                 img={img}
                 key={img.get('_id') || img.cid}
-                handleEdit={self.props.handleEdit}/>);
+                handleEdit={self.props.handleEdit}
+                handleDelete={self.props.handleDelete}/>);
     });
 
     return (
