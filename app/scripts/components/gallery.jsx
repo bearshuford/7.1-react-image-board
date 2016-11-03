@@ -3,10 +3,13 @@ var $ = require('jquery');
 var React = require('react');
 var Backbone = require('backbone');
 
-var GridList = require('material-ui').GridList;
-var GridTile = require('material-ui').GridTile;
-var IconButton = require('material-ui').IconButton;
-var Subheader = require('material-ui').Subheader;
+var Card        = require('material-ui').Card;
+var CardActions = require('material-ui/Card').CardActions;
+var CardTitle    = require('material-ui/Card').CardTitle;
+var CardMedia    = require('material-ui/Card').CardMedia;
+
+
+var FlatButton = require('material-ui').FlatButton;
 
 require('backbone-react-component');
 
@@ -15,12 +18,13 @@ const styles = {
   root: {
     paddingTop: '70px',
     display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    flexFlow: 'column nowrap',
+    alignItems: 'center'
   },
-  gridList: {
+  card: {
     width: 500,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    marginBottom: '18px'
   }
 };
 
@@ -33,21 +37,27 @@ var Tile = React.createClass({
   },
 
   render: function(){
-    var img = this.props.img;
+    var img  = this.props.img;
     var self = this;
     return (
-      <GridTile
-        title={img.get('caption')}
-        actionIcon={(
-          <IconButton  onTouchTap={self.handleEdit}>
-              <i className="material-icons">edit</i>
-          </IconButton>)}
-      >
-        <img src={img.get('url')} />
-      </GridTile>
+      <Card style={styles.card}>
+        <CardMedia>
+          <img src={img.get('url')} />
+        </CardMedia>
+         <CardTitle title={img.get('caption')}/>
+        <CardActions>
+          <FlatButton onTouchTap={self.handleEdit}
+            label={'Edit'}
+          />
+          <FlatButton
+            label={'Delete'}
+            secondary={true}/>
+        </CardActions>
+      </Card>
     );
   }
 });
+
 
 
 var GalleryContainer = React.createClass({
@@ -67,12 +77,7 @@ var GalleryContainer = React.createClass({
 
     return (
       <div style={styles.root}>
-        <GridList
-          cols={1}
-          style={styles.gridList}
-        >
-          {tiles}
-        </GridList>
+        {tiles}
       </div>
     );
   }

@@ -36,7 +36,9 @@ const styles = {
   },
   appBar: {
     position: 'fixed',
-    top: 0
+    top: 0,
+    right:0,
+    left:0
   }
 };
 
@@ -140,12 +142,6 @@ var ImageDialog = React.createClass({
 });
 
 
-
-
-
-
-
-
 var App = React.createClass({
 
   render: function() {
@@ -198,6 +194,7 @@ var AppContainer = React.createClass({
 
   handleChange: function(item) {
     this.state.model.set(item);
+    this.state.model.save();
     this.setState({
       open: false,
       model: false
